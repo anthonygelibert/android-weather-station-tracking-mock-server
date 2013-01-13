@@ -1,9 +1,4 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright (c) 2012, Nocosium.                                             ~
-  ~ All rights reserved.                                                      ~
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -16,14 +11,12 @@
     <name>IUT Valence :: Android :: Weather Station Tracking :: Mock Server</name>
     <description>Mock server for "android-weather-station-tracking".</description>
     <inceptionYear>2013</inceptionYear>
-
     <properties>
         <!-- Constant for all the encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- Constant for all the java source level specification -->
         <my.configuration.java.version>1.6</my.configuration.java.version>
     </properties>
-
     <developers>
         <developer> <!-- Sebastien JEAN -->
             <id>Baz</id>
@@ -38,18 +31,15 @@
             <url>http://anthony-gelibert.fr</url>
         </developer>
     </developers>
-
     <scm> <!-- GitHub -->
         <connection>scm:git:git@github.com:anthonygelibert/android-weather-station-tracking-mock-server.git</connection>
         <url>scm:git:git@github.com:anthonygelibert/android-weather-station-tracking-mock-server.git</url>
         <developerConnection>scm:git:git@github.com:anthonygelibert/android-weather-station-tracking-mock-server.git</developerConnection>
     </scm>
-
     <issueManagement> <!-- GitHub Issues -->
         <url>https://github.com/anthonygelibert/android-weather-station-tracking-mock-server/issues</url>
         <system>GitHub</system>
     </issueManagement>
-
     <build>
         <plugins>
             <plugin> <!-- Compiler options -->
@@ -68,6 +58,18 @@
                     <showDeprecation>true</showDeprecation>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <failOnError>true</failOnError>
+                </configuration>
+            </plugin>
+            <plugin> <!-- JAR Plugin: MANIFEST Main Class -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.iutvalence.android.weathertrack.mockserver.ServerMain</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
