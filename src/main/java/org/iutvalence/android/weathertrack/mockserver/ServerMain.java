@@ -8,12 +8,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-/**
- * @author Sebastien JEAN, Anthony GELIBERT.
- */
-public class ServerMain
+/** @author Sebastien JEAN, Anthony GELIBERT. */
+public final class ServerMain
 {
-    public static void main(String[] args)
+    public static void main(final String... args)
     {
         ServerSocket serverSocket = null;
         try
@@ -21,7 +19,7 @@ public class ServerMain
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(InetAddress.getByName(args[0]), Integer.parseInt(args[1])));
         }
-        catch (Exception e)
+        catch (final Exception ignore)
         {
             System.err.println("Could not bind socket on " + args[0] + "/" + args[1] + "...exiting");
             System.exit(1);
@@ -32,10 +30,10 @@ public class ServerMain
             Socket s = null;
             try
             {
-                String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]";
                 s = serverSocket.accept();
                 PrintStream ps = new PrintStream(s.getOutputStream());
                 ps.println("HTTP/1.1 200 OK");
+                final String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]";
                 ps.println("Content-Length: " + response.length());
                 ps.println();
                 ps.println(response);
