@@ -16,9 +16,10 @@ import java.net.Socket;
  */
 public final class ServerMain
 {
+    /** Default host is all interfaces. */
     private static final String DEFAULT_HOST = "0.0.0.0";
-
-    private static final int DEFAULT_PORT = 8888;
+    /** Default port. */
+    private static final int    DEFAULT_PORT = 8888;
 
     public static void main(final String... args)
     {
@@ -38,11 +39,11 @@ public final class ServerMain
                 port = Integer.parseInt(args[0]);
                 break;
             // app.jar <@IP> <port>
-            case 2 :
+            case 2:
                 host = args[0];
                 port = Integer.parseInt(args[1]);
                 break;
-            default :
+            default:
                 // TODO Display usage.
                 return;
         }
@@ -56,8 +57,8 @@ public final class ServerMain
         }
         catch (final Exception ignore)
         {
-            System.err.println("Could not bind socket on " + args[0] + "/" + args[1] + "...exiting");
-            System.exit(1);
+            System.err.printf("Could not bind socket on %s/%s...exiting%n", args[0], args[1]);
+            return;
         }
         System.out.println("Server started");
         while (true)
@@ -67,9 +68,9 @@ public final class ServerMain
             {
                 s = serverSocket.accept();
                 PrintStream ps = new PrintStream(s.getOutputStream());
-                ps.println("HTTP/1.1 200 OK");
-                final String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]";
-                ps.println("Content-Length: " + response.length());
+                ps.println("HTTP/1.1 200 OK"); // NON-NLS
+                final String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
+                ps.printf("Content-Length: %d%n", response.length()); // NON-NLS
                 ps.println();
                 ps.println(response);
                 //ps.close();
@@ -79,7 +80,7 @@ public final class ServerMain
                 System.err.println("Could not accept incoming connection...ignoring");
             }
 
-            System.out.println("Connection from " + s.getRemoteSocketAddress());
+            System.out.printf("Connection from %s%n", s.getRemoteSocketAddress());
             try
             {
                 s.close();
