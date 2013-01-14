@@ -8,16 +8,51 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-/** @author Sebastien JEAN, Anthony GELIBERT. */
+/**
+ * Create the server.
+ *
+ * @author Sebastien JEAN, Anthony GELIBERT.
+ * @version 1.0.0
+ */
 public final class ServerMain
 {
+    private static final String DEFAULT_HOST = "0.0.0.0";
+
+    private static final int DEFAULT_PORT = 8888;
+
     public static void main(final String... args)
     {
+        // Process params
+        final String host;
+        final int port;
+        switch (args.length)
+        {
+            // app.jar
+            case 0:
+                port = DEFAULT_PORT;
+                host = DEFAULT_HOST;
+                break;
+            // app.jar <PORT>
+            case 1:
+                host = DEFAULT_HOST;
+                port = Integer.parseInt(args[0]);
+                break;
+            // app.jar <@IP> <port>
+            case 2 :
+                host = args[0];
+                port = Integer.parseInt(args[1]);
+                break;
+            default :
+                // TODO Display usage.
+                return;
+        }
+
+
         ServerSocket serverSocket = null;
         try
         {
             serverSocket = new ServerSocket();
-            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(args[0]), Integer.parseInt(args[1])));
+            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(host), port));
         }
         catch (final Exception ignore)
         {
