@@ -3,7 +3,6 @@ package org.iutvalence.android.weathertrack.mockserver;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -12,7 +11,7 @@ import java.net.Socket;
  * Create the server.
  *
  * @author Sebastien JEAN, Anthony GELIBERT.
- * @version 1.0.0
+ * @version 2.0.0
  */
 public final class ServerMain
 {
@@ -44,50 +43,79 @@ public final class ServerMain
                 port = Integer.parseInt(args[1]);
                 break;
             default:
-                // TODO Display usage.
+                usage();
                 return;
         }
 
-
-        ServerSocket serverSocket = null;
         try
         {
-            serverSocket = new ServerSocket();
-            serverSocket.bind(new InetSocketAddress(InetAddress.getByName(host), port));
-        }
-        catch (final Exception ignore)
-        {
-            System.err.printf("Could not bind socket on %s/%s...exiting%n", args[0], args[1]);
-            return;
-        }
-        System.out.println("Server started");
-        while (true)
-        {
-            Socket s = null;
+            final ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
             try
             {
-                s = serverSocket.accept();
-                PrintStream ps = new PrintStream(s.getOutputStream());
-                ps.println("HTTP/1.1 200 OK"); // NON-NLS
-                final String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
-                ps.printf("Content-Length: %d%n", response.length()); // NON-NLS
-                ps.println();
-                ps.println(response);
-                //ps.close();
+                new Thread(new ServerThread(serverSocket.accept())).start();
             }
-            catch (IOException e)
+            finally
             {
-                System.err.println("Could not accept incoming connection...ignoring");
+                serverSocket.close();
             }
+        }
+        catch (final IOException ignore)
+        {
+            System.err.println("Can't create the server or accept a new connection.");
+        }
+    }
 
-            System.out.printf("Connection from %s%n", s.getRemoteSocketAddress());
+    /** Print usage. */
+    private static void usage()
+    { /* TODO */ }
+
+    /**
+     * Thread sending JSON data to the client.
+     *
+     * @author Anthony GELIBERT
+     * @version 1.0.0
+     */
+    private static final class ServerThread implements Runnable
+    {
+        /** Client Socket. */
+        private final Socket m_socket;
+
+        ServerThread(final Socket socket)
+        {
+            m_socket = socket;
+        }
+
+        @Override
+        public String toString()
+        {
+            final StringBuilder sb = new StringBuilder("ServerThread");
+            sb.append("{m_socket=").append(m_socket);
+            sb.append('}');
+            return sb.toString();
+        }
+
+        @Override
+        public void run()
+        {
             try
             {
-                s.close();
+                final PrintStream ps = new PrintStream(m_socket.getOutputStream());
+                try
+                {
+                    ps.println("HTTP/1.1 200 OK"); // NON-NLS
+                    final String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
+                    ps.printf("Content-Length: %d%n", response.length()); // NON-NLS
+                    ps.println();
+                    ps.println(response);
+                }
+                finally
+                {
+                    ps.close();
+                }
             }
-            catch (IOException e)
+            catch (final IOException ignore)
             {
-                // ignoring this
+                System.err.println("Can't communicate with the client.");
             }
         }
     }
