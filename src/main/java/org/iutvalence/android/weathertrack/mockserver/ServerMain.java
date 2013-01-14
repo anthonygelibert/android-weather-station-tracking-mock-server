@@ -50,10 +50,12 @@ public final class ServerMain
         try
         {
             final ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
+            System.out.printf("MockServer listen on %s:%d%n%n", host, port);
             try
             {
                 while (true)
                 {
+                    System.out.println("Wait for new connections…");
                     new Thread(new ServerThread(serverSocket.accept())).start();
                 }
             }
@@ -64,7 +66,7 @@ public final class ServerMain
         }
         catch (final IOException ignore)
         {
-            System.err.println("Can't create the server or accept a new connection.");
+            System.err.printf("Can't create the server (%s:%d) or accept a new connection.", host, port);
         }
     }
 
@@ -85,6 +87,7 @@ public final class ServerMain
 
         ServerThread(final Socket socket)
         {
+            System.out.printf("Request from %s%n", socket.getRemoteSocketAddress());
             m_socket = socket;
         }
 
