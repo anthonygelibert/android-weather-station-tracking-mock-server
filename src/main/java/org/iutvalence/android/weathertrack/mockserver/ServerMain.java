@@ -52,7 +52,10 @@ public final class ServerMain
             final ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
             try
             {
-                new Thread(new ServerThread(serverSocket.accept())).start();
+                while (true)
+                {
+                    new Thread(new ServerThread(serverSocket.accept())).start();
+                }
             }
             finally
             {
