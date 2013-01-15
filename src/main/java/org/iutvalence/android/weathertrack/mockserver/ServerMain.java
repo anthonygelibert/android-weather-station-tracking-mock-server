@@ -109,7 +109,9 @@ public final class ServerMain
                 try
                 {
                     ps.println("HTTP/1.1 200 OK"); // NON-NLS
-                    final String response = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
+                    ps.println("Server: AWTSMockServer/2.0.0"); // NON-NLS
+                    ps.println("Content-Type: application/json"); // NON-NLS
+                    final String response = "[{\'id\':\'Montélimar\',\'libellé\':\'Montélimar sud\'},{\'id\':\'Chatuzange\',\'libellé\':\'Autoroute Chatuzange\'}]"; // NON-NLS
                     ps.printf("Content-Length: %d%n", response.length()); // NON-NLS
                     ps.println();
                     ps.println(response);
