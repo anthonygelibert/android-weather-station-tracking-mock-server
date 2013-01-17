@@ -52,9 +52,9 @@ public final class ServerMain
         try
         {
             final ServerSocket serverSocket = new ServerSocket(port, 0, InetAddress.getByName(host));
-            System.out.printf("MockServer listen on %s:%d%n%n", host, port);
             try
             {
+                System.out.printf("MockServer listen on %s:%d%n%n", host, port);
                 while (true)
                 {
                     System.out.println("Wait for new connections…");
