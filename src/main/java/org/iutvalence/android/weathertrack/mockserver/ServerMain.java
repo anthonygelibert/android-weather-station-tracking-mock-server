@@ -11,7 +11,7 @@ import java.net.Socket;
  * Create the server.
  *
  * @author Sebastien JEAN, Anthony GELIBERT.
- * @version 2.0.0
+ * @version 2.0.1
  */
 public final class ServerMain
 {
