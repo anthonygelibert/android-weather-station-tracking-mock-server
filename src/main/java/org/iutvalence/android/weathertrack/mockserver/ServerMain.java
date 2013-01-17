@@ -19,6 +19,8 @@ public final class ServerMain
     private static final String DEFAULT_HOST = "0.0.0.0";
     /** Default port. */
     private static final int    DEFAULT_PORT = 8888;
+    /** Hard-coded response. */
+    private static final String RESPONSE     = "[{\'id\':\'Montélimar\',\'libellé\':\'Montélimar sud\'},{\'id\':\'Chatuzange\',\'libellé\':\'Autoroute Chatuzange\'}]\n"; // NON-NLS
 
     public static void main(final String... args)
     {
@@ -111,10 +113,8 @@ public final class ServerMain
                     ps.println("HTTP/1.1 200 OK"); // NON-NLS
                     ps.println("Server: AWTSMockServer/2.0.0"); // NON-NLS
                     ps.println("Content-Type: application/json"); // NON-NLS
-                    final String response = "[{\'id\':\'Montélimar\',\'libellé\':\'Montélimar sud\'},{\'id\':\'Chatuzange\',\'libellé\':\'Autoroute Chatuzange\'}]"; // NON-NLS
-                    ps.printf("Content-Length: %d%n", response.length()); // NON-NLS
                     ps.println();
-                    ps.println(response);
+                    ps.println(RESPONSE);
                 }
                 finally
                 {
