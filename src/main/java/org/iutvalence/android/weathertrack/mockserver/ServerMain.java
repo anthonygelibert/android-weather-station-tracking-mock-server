@@ -20,7 +20,7 @@ public final class ServerMain
     /** Default port. */
     private static final int    DEFAULT_PORT = 8888;
     /** Hard-coded response. */
-    private static final String RESPONSE     = "[{\'id\':\'Montélimar\',\'libellé\':\'Montélimar sud\'},{\'id\':\'Chatuzange\',\'libellé\':\'Autoroute Chatuzange\'}]\n"; // NON-NLS
+    private static final String RESPONSE     = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
 
     public static void main(final String... args)
     {
