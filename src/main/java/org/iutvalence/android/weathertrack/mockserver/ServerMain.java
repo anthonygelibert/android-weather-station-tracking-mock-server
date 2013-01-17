@@ -1,7 +1,7 @@
 package org.iutvalence.android.weathertrack.mockserver;
 
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,7 +20,7 @@ public final class ServerMain
     /** Default port. */
     private static final int    DEFAULT_PORT = 8888;
     /** Hard-coded response. */
-    private static final String RESPONSE     = "[\n{\'id\': \'MontÃ©limar\', \'libellÃ©\': \'MontÃ©limar sud\'},\n{\'id\': \'Chatuzange\', \'libellÃ©\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
+    private static final String RESPONSE     = "[\n{\'id\': \'Montélimar\', \'libellé\': \'Montélimar sud\'},\n{\'id\': \'Chatuzange\', \'libellé\': \'Autoroute Chatuzange\'}\n]"; // NON-NLS
 
     public static void main(final String... args)
     {
@@ -57,7 +57,7 @@ public final class ServerMain
                 System.out.printf("MockServer listen on %s:%d%n%n", host, port);
                 while (true)
                 {
-                    System.out.println("Wait for new connectionsâ€¦");
+                    System.out.println("Wait for new connections...");
                     new Thread(new ServerThread(serverSocket.accept())).start();
                 }
             }
@@ -107,18 +107,18 @@ public final class ServerMain
         {
             try
             {
-                final PrintStream ps = new PrintStream(m_socket.getOutputStream());
+
+                final OutputStreamWriter osw = new OutputStreamWriter(m_socket.getOutputStream(), "iso-8859-1"); // NON-NLS
                 try
                 {
-                    ps.println("HTTP/1.1 200 OK"); // NON-NLS
-                    ps.println("Server: AWTSMockServer/2.0.0"); // NON-NLS
-                    ps.println("Content-Type: application/json"); // NON-NLS
-                    ps.println();
-                    ps.println(RESPONSE);
+                    osw.write("HTTP/1.1 200 OK\n"); // NON-NLS
+                    osw.write("Server: AWTSMockServer/2.0.1\n"); // NON-NLS
+                    osw.write("Content-Type: application/json\n\n"); // NON-NLS
+                    osw.write(RESPONSE);
                 }
                 finally
                 {
-                    ps.close();
+                    osw.close();
                 }
             }
             catch (final IOException ignore)

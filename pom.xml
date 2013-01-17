@@ -13,7 +13,7 @@
     <inceptionYear>2013</inceptionYear>
     <properties>
         <!-- Constant for all the encoding -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>iso-8859-1</project.build.sourceEncoding>
         <!-- Constant for all the java source level specification -->
         <my.configuration.java.version>1.6</my.configuration.java.version>
     </properties>
